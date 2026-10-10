@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: [main]
+    branches: [main, 'ci/**']
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened]
@@ -28,7 +28,7 @@ env:
 
 jobs:
   eligibility:
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -48,9 +48,6 @@ jobs:
         with:
           script: |
             if (context.eventName === 'push') {
-              if (context.ref !== 'refs/heads/main') {
-                throw new Error('Automatic full builds only run on main');
-              }
               core.setOutput('sha', context.sha);
               core.setOutput('pr', '');
               core.setOutput('head', '');
