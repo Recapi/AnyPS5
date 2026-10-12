@@ -158,7 +158,8 @@ int Run(const int argc, char* argv[]) {
                     byteWriter
                 ),
                 std::make_shared<Elfpatcher::SectionHeaderTableBuilder>(byteWriter),
-                byteWriter
+                byteWriter,
+                args.linuxFixedBase
             );
         }
 
